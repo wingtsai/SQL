@@ -1,0 +1,20 @@
+CREATE PROCEDURE [dbo].[usp_ProgramMatrix_Publish]
+	@p_ProductBrandID INT = NULL
+AS
+	
+	UPDATE AvHistory
+	SET PMPublish = GETDATE()
+	WHERE 
+		ProductBrandID = @p_ProductBrandID
+	AND ShowOnPM = 1
+	AND PMPublish IS NULL
+	if @@ERROR <> 0
+	begin
+		raiserror('JFerror:usp_ProgramMatrix_Publish -  updating the av history.', 16, 1)		
+		return 1
+	end
+
+	
+
+RETURN 0
+GO
